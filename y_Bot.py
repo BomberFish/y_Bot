@@ -70,7 +70,7 @@ async def do_command(command, message, the_rest_of_the_command):
                 embed.add_field(name=f"{the_command_that_is_confusing.command}: ", value=f"{the_command_that_is_confusing.the_help_for_the_command}", inline=False)
             await message.channel.send(embed=embed)
         else:
-            await message.channel.send(embed=discord.Embed(title=f"Type \"ybot;\" to see a list of available commands", color=0xff0000))
+            await message.channel.send(embed=discord.Embed(title=f"Commands are: {', '.join([x.command for x in the_list_that_we_pair_down])}", color=0xff0000))
     elif command.command == "pin":
         await message.channel.send("pon")
 
