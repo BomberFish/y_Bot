@@ -63,14 +63,14 @@ async def do_command(command, message, the_rest_of_the_command):
                 try:
                     the_command_that_is_confusing = parse_command(Command(x, "", -1))
                 except Y_Bot_Exception as y:
-                    embed = discord.Embed(title=y.args[0], description="You made an error" if len(y.args) == 1 else y.args[1], color=0x00ff88)
+                    embed = discord.Embed(title=y.args[0], description="You made an error" if len(y.args) == 1 else y.args[1], color=0xff0000)
                     await message.channel.send(embed=embed)
                     return
 
                 embed.add_field(name=f"{the_command_that_is_confusing.command}: ", value=f"{the_command_that_is_confusing.the_help_for_the_command}", inline=False)
             await message.channel.send(embed=embed)
         else:
-            await message.channel.send(embed=discord.Embed(title=f"Commands are: {', '.join([x.command for x in the_list_that_we_pair_down])}", color=0x00ff00))
+            await message.channel.send(embed=discord.Embed(title=f"Commands are: {', '.join([x.command for x in the_list_that_we_pair_down])}", color=0x00ff88))
     elif command.command == "pin":
         await message.channel.send("pon")
     elif command.command == "morse":
