@@ -34,7 +34,7 @@ def parse_command(command, allow_abbreviations=True):
             for x in the_list_that_we_pair_down:
                 if x.command == command.command:
                     return x
-            raise Y_Bot_Exception(f"Ambigous command \"{command.command}\"", f"possibilites are: {', '.join([x.command for x in the_list_that_we_pair_down])}")
+            raise Y_Bot_Exception(f"Ambiguous command \"{command.command}\"", f"possibilites are: {', '.join([x.command for x in the_list_that_we_pair_down])}")
 
 async def do_command(command, message, the_rest_of_the_command):
     if command.command == "ping":
@@ -56,21 +56,9 @@ async def do_command(command, message, the_rest_of_the_command):
         the_linear_equation = the_three_ratios[0] * the_three_ratios[1] + the_three_ratios[2]
         await message.channel.send(str(the_linear_equation) if not should_it_be_a_float else str(float(the_linear_equation)))
     elif command.command == "help":
-        the_rest_of_the_command = the_rest_of_the_command.split()
-        if len(the_rest_of_the_command) > 0:
-            embed = discord.Embed(title=f"Help for command \"{parse_command(Command(the_rest_of_the_command[0], '', -1)).command}\"" if len(the_rest_of_the_command) == 1 else f"Help for commands", color=0x00ff00)
-            for x in the_rest_of_the_command:
-                try:
-                    the_command_that_is_confusing = parse_command(Command(x, "", -1))
-                except Y_Bot_Exception as y:
-                    embed = discord.Embed(title=y.args[0], description="You made an error" if len(y.args) == 1 else y.args[1], color=0xff0000)
-                    await message.channel.send(embed=embed)
-                    return
-
-                embed.add_field(name=f"{the_command_that_is_confusing.command}: ", value=f"{the_command_that_is_confusing.the_help_for_the_command}", inline=False)
-            await message.channel.send(embed=embed)
-        else:
-            await message.channel.send(embed=discord.Embed(title=f"Commands are: {', '.join([x.command for x in the_list_that_we_pair_down])}", color=0x00ff88))
+        await message.channel.send(embed=discord.Embed(title=f"Commands are: ping, pong, conv, help, pin, morse", color=0x00ff88))
+    elif command.command == "":
+        await message.channel.send(embed=discord.Embed(title=f"Whoops!", color=0xff0000) (description="You didn't pass any commands to me!"))
     elif command.command == "pin":
         await message.channel.send("pon")
     elif command.command == "morse":
@@ -93,9 +81,9 @@ class Y_Bot(discord.Client):
         print(f"Logged in as {self.user}")
     async def on_message(self, message):
         
-        if message.content[0:5] == "ybot;":
-            the_command_without_start = message.content[5:].split()[0] if len(message.content[5:]) != 0 else ""
-            the_rest_of_the_command = ' '.join(message.content[5:].split()[1:]) if len(message.content[5:].split()) > 1 else ""
+        if message.content[0:3] == "yb;":
+            the_command_without_start = message.content[3:].split()[0] if len(message.content[3:]) != 0 else ""
+            the_rest_of_the_command = ' '.join(message.content[3:].split()[1:]) if len(message.content[3:].split()) > 1 else ""
             print(the_command_without_start)
             try:
                 await do_command(parse_command(Command(the_command_without_start, "", -1)), message, the_rest_of_the_command)
