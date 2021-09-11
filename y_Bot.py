@@ -34,7 +34,7 @@ def parse_command(command, allow_abbreviations=True):
             for x in the_list_that_we_pair_down:
                 if x.command == command.command:
                     return x
-            raise Y_Bot_Exception(f"Ambiguous command \"{command.command}\"", f"possibilites are: {', '.join([x.command for x in the_list_that_we_pair_down])}")
+            raise Y_Bot_Exception(f"Ambiguous command \"{command.command}\"", f"possibilities are: {', '.join([x.command for x in the_list_that_we_pair_down])}")
 
 async def do_command(command, message, the_rest_of_the_command):
     if command.command == "ping":
@@ -56,7 +56,8 @@ async def do_command(command, message, the_rest_of_the_command):
         the_linear_equation = the_three_ratios[0] * the_three_ratios[1] + the_three_ratios[2]
         await message.channel.send(str(the_linear_equation) if not should_it_be_a_float else str(float(the_linear_equation)))
     elif command.command == "help":
-        await message.channel.send(embed=discord.Embed(title=f"Commands are:", color=0x00ff88, description=the_list_of_commands))
+        the_list_that_we_pair_down = the_list_of_commands[:]
+        await message.channel.send(embed=discord.Embed(title=f"Commands are:", color=0x00ff88, description={', '.join([x.command for x in the_list_that_we_pair_down])}))
     elif command.command == "":
         await message.channel.send(embed=discord.Embed(title=f"Whoops!", color=0xff0000, description="You didn't pass any commands to me!"))
     elif command.command == "pin":
