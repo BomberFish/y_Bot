@@ -79,11 +79,11 @@ async def do_command(command, message, the_rest_of_the_command):
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
         print(the_rest_of_the_command)
         await message.channel.send(the_rest_of_the_command)
-    elif command.command == "add":
-        the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-        the_other_thing_to_add = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-        print(the_rest_of_the_command)
-        await message.channel.send(the_rest_of_the_command)
+    # elif command.command == "add":
+    #     the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
+    #     the_other_thing_to_add = [x.split(" ") for x in the_rest_of_the_command.split("/")]
+    #     print(the_rest_of_the_command)
+    #     await message.channel.send(the_rest_of_the_command)
 
 class Y_Bot(discord.Client):
     async def on_ready(self):
