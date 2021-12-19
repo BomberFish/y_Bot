@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 import discord
 from fractions import Fraction
+import json
 
 class Command:
     def __init__(self, command, cmdhelp, argnum):
@@ -11,7 +12,7 @@ class Command:
 class Y_Bot_Exception(Exception):
     pass
 
-the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1)]
+the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0)]
 # SEP 11 2021 @ 19:09:30
 # the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("pin", "test the automatic abbreviations", 0), Command("morse", "convert morse to text and vice-versa", 1)]
 
@@ -66,7 +67,7 @@ async def do_command(command, message, the_rest_of_the_command):
     #     await message.channel.send("pon")
     elif command.command == "morse":
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-        print(the_rest_of_the_command)
+        #print(the_rest_of_the_command)
         for x in the_rest_of_the_command:
             for y in x:
                 if y == "":
@@ -80,8 +81,9 @@ async def do_command(command, message, the_rest_of_the_command):
         await message.channel.send(the_message_to_send)
     elif command.command == "echo":
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-        print(the_rest_of_the_command)
-        await message.channel.send(the_rest_of_the_command)
+        thing_to_echo = json.dumps(the_rest_of_the_command, separators=(',', ':'))
+        #print(thing_to_echo)
+        await message.channel.send(thing_to_echo)
     # elif command.command == "add":
     #     the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
     #     the_other_thing_to_add = [x.split(" ") for x in the_rest_of_the_command.split("/")]
@@ -98,7 +100,7 @@ class Y_Bot(discord.Client):
         if message.content[0:3] == "yb;":
             the_command_without_start = message.content[3:].split()[0] if len(message.content[3:]) != 0 else ""
             the_rest_of_the_command = ' '.join(message.content[3:].split()[1:]) if len(message.content[3:].split()) > 1 else ""
-            print(the_command_without_start)
+            #print(the_command_without_start)
             try:
                 await do_command(parse_command(Command(the_command_without_start, "", -1)), message, the_rest_of_the_command)
             except Y_Bot_Exception as y:
