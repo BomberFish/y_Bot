@@ -43,8 +43,10 @@ def parse_command(command, allow_abbreviations=True):
 async def do_command(command, message, the_rest_of_the_command):
     if command.command == "ping":
         await message.channel.send("pong")
+    
     elif command.command == "pong":
         await message.channel.send("ping")
+    
     elif command.command == "conv":
         the_rest_of_the_command = the_rest_of_the_command.split()
         if len(the_rest_of_the_command) < command.argnum:
@@ -59,13 +61,17 @@ async def do_command(command, message, the_rest_of_the_command):
             should_it_be_a_float = False;
         the_linear_equation = the_three_ratios[0] * the_three_ratios[1] + the_three_ratios[2]
         await message.channel.send(str(the_linear_equation) if not should_it_be_a_float else str(float(the_linear_equation)))
+    
     elif command.command == "help":
         pairlist = cmd_list[:]
         await message.channel.send(embed=discord.Embed(title=f"Commands are:", color=0x57f287, description={', '.join([x.command for x in pairlist])}))
+    
     elif command.command == "":
         await message.channel.send(embed=discord.Embed(title=f"Error", color=0xed4245, description="You didn't pass any commands to me!"))
+    
     elif command.command == "uncringe":
         await message.channel.send("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    
     elif command.command == "morse":
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
         for x in the_rest_of_the_command:
@@ -79,9 +85,10 @@ async def do_command(command, message, the_rest_of_the_command):
                 the_message_to_send += morse[y] if y in morse else y
             the_message_to_send += " "
         await message.channel.send(the_message_to_send)
+    
     elif command.command == "scale":
          the_rest_of_the_command = the_rest_of_the_command.split()
-         if len(the_rest_of_the_command) < command.the_number_of_arguments_the_command_takes:
+         if len(the_rest_of_the_command) < command.argnum:
              raise Y_Bot_Exception(f"Not enough arguments provided for command: {command.command}")
          if the_rest_of_the_command[0] == "et":
              embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]}", color=0x57f287)
@@ -100,16 +107,13 @@ async def do_command(command, message, the_rest_of_the_command):
                  ratios.append(Fraction((Fraction(2,3) ** x) * Fraction(the_rest_of_the_command[1]), 2 ** Fraction(math.floor(math.log2((Fraction(2,3) ** x) * Fraction(the_rest_of_the_command[1]))))))
              [embed.add_field(name=f"Tone {sorted(ratios).index(x)}:", value=f"{x}", inline=False) for x in sorted(ratios)]
              await message.channel.send(embed=embed)
+    
     elif command.command == "echo":
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
         thing_to_echo = json.dumps(the_rest_of_the_command, separators=(',', ':'))
         #print(thing_to_echo)
         await message.channel.send(thing_to_echo)
-    # elif command.command == "add":
-    #     the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-    #     the_other_thing_to_add = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-    #     print(the_rest_of_the_command)
-    #     await message.channel.send(the_rest_of_the_command)
+    
     elif command.command == "be-a-robot":
         raise Y_Bot_Exception(f"Resistance is Futile.")
 
