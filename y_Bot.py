@@ -61,9 +61,9 @@ async def do_command(command, message, the_rest_of_the_command):
         await message.channel.send(str(the_linear_equation) if not should_it_be_a_float else str(float(the_linear_equation)))
     elif command.command == "help":
         pairlist = cmd_list[:]
-        await message.channel.send(embed=discord.Embed(title=f"Commands are:", color=0x00ff88, description={', '.join([x.command for x in pairlist])}))
+        await message.channel.send(embed=discord.Embed(title=f"Commands are:", color=0x57f287, description={', '.join([x.command for x in pairlist])}))
     elif command.command == "":
-        await message.channel.send(embed=discord.Embed(title=f"Error", color=0xff0000, description="You didn't pass any commands to me!"))
+        await message.channel.send(embed=discord.Embed(title=f"Error", color=0xed4245, description="You didn't pass any commands to me!"))
     elif command.command == "uncringe":
         await message.channel.send("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     elif command.command == "morse":
@@ -84,16 +84,16 @@ async def do_command(command, message, the_rest_of_the_command):
          if len(the_rest_of_the_command) < command.the_number_of_arguments_the_command_takes:
              raise Y_Bot_Exception(f"Not enough arguments provided for command: {command.command}")
          if the_rest_of_the_command[0] == "et":
-             embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]}", color=0x00ff00)
+             embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]}", color=0x57f287)
              for x in range(int(the_rest_of_the_command[1])):
                  if (x % 25 == 1) and (x != 1):
                      await message.channel.send(embed=embed)
-                     embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]} (continued)", color=0x00ff00)
+                     embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]} (continued)", color=0x57f287)
                  embed.add_field(name=f"Tone {x}:", value=f"{(2**Fraction(x/int(the_rest_of_the_command[1])))*Fraction(the_rest_of_the_command[2])}", inline=False)
              await message.channel.send(embed=embed)
          elif the_rest_of_the_command[0] == "pythagorean":
              ratios = []
-             embed = discord.Embed(title=f"Pythagorean scale made on the pitch {the_rest_of_the_command[1]}", color=0x00ff00)
+             embed = discord.Embed(title=f"Pythagorean scale made on the pitch {the_rest_of_the_command[1]}", color=0x57f287)
              for x in range(6):
                  ratios.append(((Fraction(3,2) ** x) * Fraction(the_rest_of_the_command[1])) / 2 ** (math.floor(math.log2((Fraction(3,2) ** x) * Fraction(the_rest_of_the_command[1])))))
              for x in range(1, 7):
@@ -125,7 +125,7 @@ class Y_Bot(discord.Client):
             try:
                 await do_command(parse_command(Command(the_command_without_start, "", -1)), message, the_rest_of_the_command)
             except Y_Bot_Exception as y:
-                embed = discord.Embed(title=y.args[0], description="You made an error" if len(y.args) == 1 else y.args[1], color=0xff0000)
+                embed = discord.Embed(title=y.args[0], description="You made an error" if len(y.args) == 1 else y.args[1], color=0xed4245)
                 await message.channel.send(embed=embed)
 
 y_Bot = Y_Bot()
