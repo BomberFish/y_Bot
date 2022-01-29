@@ -13,7 +13,7 @@ class Command:
 class Y_Bot_Exception(Exception):
     pass
 
-cmd_list = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "Convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0), Command("uncringe", "Obliterate Cringe", 0), Command("et", "create an equal-tempered scale", 2)]
+cmd_list = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "Convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0), Command("uncringe", "Obliterate Cringe", 0), Command("scale", "Create an equal-tempered or pythagorean scale", 2)]
 # SEP 11 2021 @ 19:09:30
 # the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("pin", "test the automatic abbreviations", 0), Command("morse", "convert morse to text and vice-versa", 1)]
 
