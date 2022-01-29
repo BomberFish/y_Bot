@@ -12,12 +12,12 @@ class Command:
 class Y_Bot_Exception(Exception):
     pass
 
-the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0)]
+cmd_list = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "Convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0), Command("uncringe", "Obliterate Cringe", 0)]
 # SEP 11 2021 @ 19:09:30
 # the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("pin", "test the automatic abbreviations", 0), Command("morse", "convert morse to text and vice-versa", 1)]
 
 def parse_command(command, allow_abbreviations=True):
-    pairlist = the_list_of_commands[:]
+    pairlist = cmd_list[:]
     if allow_abbreviations:
         i = 0
         while i < len(command.command):
@@ -59,10 +59,12 @@ async def do_command(command, message, the_rest_of_the_command):
         the_linear_equation = the_three_ratios[0] * the_three_ratios[1] + the_three_ratios[2]
         await message.channel.send(str(the_linear_equation) if not should_it_be_a_float else str(float(the_linear_equation)))
     elif command.command == "help":
-        pairlist = the_list_of_commands[:]
+        pairlist = cmd_list[:]
         await message.channel.send(embed=discord.Embed(title=f"Commands are:", color=0x00ff88, description={', '.join([x.command for x in pairlist])}))
     elif command.command == "":
-        await message.channel.send(embed=discord.Embed(title=f"Whoops!", color=0xff0000, description="You didn't pass any commands to me!"))
+        await message.channel.send(embed=discord.Embed(title=f"Error", color=0xff0000, description="You didn't pass any commands to me!"))
+    elif command.command == "uncringe":
+        await message.channel.send("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     # elif command.command == "pin":
     #     await message.channel.send("pon")
     elif command.command == "morse":
