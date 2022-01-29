@@ -65,11 +65,8 @@ async def do_command(command, message, the_rest_of_the_command):
         await message.channel.send(embed=discord.Embed(title=f"Error", color=0xff0000, description="You didn't pass any commands to me!"))
     elif command.command == "uncringe":
         await message.channel.send("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-    # elif command.command == "pin":
-    #     await message.channel.send("pon")
     elif command.command == "morse":
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
-        #print(the_rest_of_the_command)
         for x in the_rest_of_the_command:
             for y in x:
                 if y == "":
