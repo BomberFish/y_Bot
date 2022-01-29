@@ -12,7 +12,7 @@ class Command:
 class Y_Bot_Exception(Exception):
     pass
 
-cmd_list = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "Convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0), Command("uncringe", "Obliterate Cringe", 0)]
+cmd_list = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("morse", "Convert morse to text and vice-versa", 1), Command("echo", "Echoes text to you", 1), Command("be-a-robot", "uhhhh", 0), Command("uncringe", "Obliterate Cringe", 0), Command("et", "create an equal-tempered scale", 2)]
 # SEP 11 2021 @ 19:09:30
 # the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("pin", "test the automatic abbreviations", 0), Command("morse", "convert morse to text and vice-versa", 1)]
 
@@ -81,6 +81,14 @@ async def do_command(command, message, the_rest_of_the_command):
                 the_message_to_send += morse[y] if y in morse else y
             the_message_to_send += " "
         await message.channel.send(the_message_to_send)
+    elif command.command == "et":
+         the_rest_of_the_command = the_rest_of_the_command.split()
+         if len(the_rest_of_the_command) < command.the_number_of_arguments_the_command_takes:
+             raise Y_Bot_Exception(f"Not enough arguments provided for command: {command.command}")
+         embed = discord.Embed(title=f"{the_rest_of_the_command[0]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[1]}", color=0x00ff00)
+         for x in range(int(the_rest_of_the_command[0])):
+             embed.add_field(name=f"Tone {x}:", value=f"{(2**Fraction(x/int(the_rest_of_the_command[0])))*int(the_rest_of_the_command[1])}", inline=False)
+         await message.channel.send(embed=embed)
     elif command.command == "echo":
         the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
         thing_to_echo = json.dumps(the_rest_of_the_command, separators=(',', ':'))
