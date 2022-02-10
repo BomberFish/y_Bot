@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 import discord
 from fractions import Fraction
+import math
 
 class Command:
     def __init__(self, command, the_help_for_the_command, the_number_of_arguments_the_command_takes):
@@ -11,7 +12,7 @@ class Command:
 class Y_Bot_Exception(Exception):
     pass
 
-the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("pin", "test the automatic abbreviations", 0)]
+the_list_of_commands = [Command("ping", "pong", 0), Command("pong", "ping", 0), Command("conv", "calculate a linear equation", 2), Command("help", "gives you help", 0), Command("pin", "test the automatic abbreviations", 0), Command("morse", "do morse stuff", 1), Command("scale", "create an equal-tempered or pythagorean scale", 2)]
 
 def parse_command(command, allow_abbreviations=True):
     the_list_that_we_pair_down = the_list_of_commands[:]
@@ -73,6 +74,41 @@ async def do_command(command, message, the_rest_of_the_command):
             await message.channel.send(embed=discord.Embed(title=f"Commands are: {', '.join([x.command for x in the_list_that_we_pair_down])}", color=0xff0000))
     elif command.command == "pin":
         await message.channel.send("pon")
+    elif command.command == "morse":
+        the_rest_of_the_command = [x.split(" ") for x in the_rest_of_the_command.split("/")]
+        print(the_rest_of_the_command)
+        for x in the_rest_of_the_command:
+            for y in x:
+                if y == "":
+                    raise Y_Bot_Exception(f"Found empty word")
+        the_message_to_send = ""
+        morse = {".-": "A", "-...": "B", "-.-.": "C", "-..": "D", ".": "E", "..-.": "F", "--.": "G", "....": "H", "..": "I", ".---": "J", "-.-": "K", ".-..": "L", "--": "M", "-.": "N", "---": "O", ".--.": "P", "--.-": "Q", ".-.": "R", "...": "S", "-": "T", "..-": "U", "...-": "V", ".--": "W", "-..-": "X", "-.--": "Y", "--..": "Z", "-----": "0", ".----": "1", "..---": "2", "...--": "3", "....-": "4", ".....": "5", "-....": "6", "--...": "7", "---..": "8", "----.": "9"}
+        for x in the_rest_of_the_command:
+            for y in x:
+                the_message_to_send += morse[y] if y in morse else y
+            the_message_to_send += " "
+        await message.channel.send(the_message_to_send)
+    elif command.command == "scale":
+        the_rest_of_the_command = the_rest_of_the_command.split()
+        if len(the_rest_of_the_command) < command.the_number_of_arguments_the_command_takes:
+            raise Y_Bot_Exception(f"Not enough arguments provided for command: {command.command}")
+        if the_rest_of_the_command[0] == "et":
+            embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]}", color=0x00ff00)
+            for x in range(int(the_rest_of_the_command[1])):
+                if (x % 25 == 1) and (x != 1):
+                    await message.channel.send(embed=embed)
+                    embed = discord.Embed(title=f"{the_rest_of_the_command[1]}-tone equal-tempered scale made on the pitch {the_rest_of_the_command[2]} (continued)", color=0x00ff00)
+                embed.add_field(name=f"Tone {x}:", value=f"{(2**Fraction(x/int(the_rest_of_the_command[1])))*Fraction(the_rest_of_the_command[2])}", inline=False)
+            await message.channel.send(embed=embed)
+        elif the_rest_of_the_command[0] == "pythagorean":
+            ratios = []
+            embed = discord.Embed(title=f"Pythagorean scale made on the pitch {the_rest_of_the_command[1]}", color=0x00ff00)
+            for x in range(6):
+                ratios.append(((Fraction(3,2) ** x) * Fraction(the_rest_of_the_command[1])) / 2 ** (math.floor(math.log2((Fraction(3,2) ** x) * Fraction(the_rest_of_the_command[1])))))
+            for x in range(1, 7):
+                ratios.append(Fraction((Fraction(2,3) ** x) * Fraction(the_rest_of_the_command[1]), 2 ** Fraction(math.floor(math.log2((Fraction(2,3) ** x) * Fraction(the_rest_of_the_command[1]))))))
+            [embed.add_field(name=f"Tone {sorted(ratios).index(x)}:", value=f"{x}", inline=False) for x in sorted(ratios)]
+            await message.channel.send(embed=embed)
 
 class Y_Bot(discord.Client):
     async def on_ready(self):
